@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Manuals.Converters"
+             mc:Ignorable="d"
+             x:Class="Manuals.Views.AddProductView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ImageToBool x:Key="imageToBool" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <StackLayout>
+            <Grid Style="{StaticResource EntryGridStyle}">
+                <Label Text="Name:" Style="{StaticResource EntryLabelStyle}"/>
+                <Entry Text="{Binding Name, Mode=TwoWay}" Style="{StaticResource EntryStyle}"/>
+            </Grid>
+            <BoxView Style="{StaticResource BoxDividerStyle}" Margin="20, 10"/>
+            <Grid ColumnDefinitions="100, *, 1.5*">
+                <Label Text="Image:" Style="{StaticResource EntryLabelStyle}"/>
+                <Button Grid.Column="1" Text="Choose" Style="{StaticResource SimpleButtonStyle}" VerticalOptions="Center" Command="{Binding ProductImageCommand}"/>
+                <Image Grid.Column="2" Source="{Binding ProductImage, Mode=TwoWay}" Aspect="AspectFit" HeightRequest="100"/>
+                <Button Grid.Column="2" HorizontalOptions="End" VerticalOptions="Start" Margin="0, 0, 10, 0" Command="{Binding RemoveImageCommand}" Style="{StaticResource RemoveButtonStyle}" IsVisible="{Binding ProductImage, Converter={StaticResource imageToBool}}"/>
+            </Grid>
+            
+            <Grid VerticalOptions="End" Margin="0, 50, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Text="Delete" Command="{Binding DeleteCommand}" VerticalOptions="Center" Style="{StaticResource RedButtonStyle}"/>
+                <Button Grid.Column="1" Text="Save" Command="{Binding SaveCommand}" Style="{StaticResource GreenButtonStyle}" VerticalOptions="Center"/>
+            </Grid>
+        </StackLayout>
+    </Grid>
+</ContentPage>

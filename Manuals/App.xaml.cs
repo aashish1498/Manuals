@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Manuals.Views;
+using System;
+using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,11 +12,12 @@ namespace Manuals
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new HomeView());
         }
 
         protected override void OnStart()
         {
+            Directory.CreateDirectory(Constants.ProductImagesFolder);
         }
 
         protected override void OnSleep()

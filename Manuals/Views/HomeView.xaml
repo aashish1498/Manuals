@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Manuals.Converters"
+             x:Class="Manuals.Views.HomeView">
+    <NavigationPage.TitleView>
+        <Label Text="Manuals" Style="{StaticResource TitleLabelStyle}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ImageNameToSourceConverter x:Key="nameToSource" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding PageAppearingComand}"/>
+        <xct:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding PageDisappearingCommand}" />
+    </ContentPage.Behaviors>
+    <Grid>
+        <StackLayout>
+            <BoxView Style="{StaticResource BoxDividerStyle}" Margin="10"/>
+            <ListView x:Name="listView" Margin="20, 20, 20, 10"
+              ItemsSource="{Binding ProductItems}"
+                               Style="{StaticResource ListViewStyle}"
+                      ItemTapped="listView_ItemTapped"
+                       HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Margin="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Source="{Binding ProductImageName, Converter={StaticResource nameToSource}}" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="50" HeightRequest="50"/>
+                                    <Label Text="{Binding Name}" Style="{StaticResource ListLabelStyle}" HorizontalOptions="CenterAndExpand"/>
+                                </StackLayout>
+                                <BoxView Style="{StaticResource BoxDividerStyle}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Add" Command="{Binding AddProductCommand}" Style="{StaticResource SimpleButtonStyle}"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

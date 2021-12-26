@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Manuals.Styles.Widgets">
+    <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="Transparent"/>
+        <Setter Property="BarTextColor" Value="{DynamicResource MainTextColor}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundColor}"/>
+    </Style>
+    
+    <!--Buttons-->
+
+    <Style x:Key="SimpleButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Magenta}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="{DynamicResource MainTextColor}" />
+        <Setter Property="FontFamily" Value="Montserrat-Semibold" />
+    </Style>
+
+    <Style x:Key="RedButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Vermillion}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontFamily" Value="Montserrat-Semibold" />
+    </Style>
+
+    <!--FontSize="10" Text="-" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" VerticalOptions="Start" Margin="0, 0, 10, 0"-->
+    <Style x:Key="RemoveButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Vermillion}" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontFamily" Value="Montserrat-Bold" />
+        <Setter Property="Text" Value="-"/>
+        <Setter Property="WidthRequest" Value="20"/>
+        <Setter Property="HeightRequest" Value="20"/>
+    </Style>
+
+    <Style x:Key="GreenButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Mantis}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontFamily" Value="Montserrat-Semibold" />
+    </Style>
+
+    <Style x:Key="ListViewStyle" TargetType="ListView">
+        <!--<Setter Property="BackgroundColor" Value="{DynamicResource Gray-Bg}" />-->
+        <Setter Property="SelectionMode" Value="None" />
+        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+    </Style>
+
+    <Style x:Key="BoxDividerStyle" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1"/>
+        <Setter Property="BackgroundColor" Value="Black"/>
+    </Style>
+
+    <Style x:Key="EntryGridStyle" TargetType="Grid">
+        <Setter Property="ColumnDefinitions" Value="100, *"/>
+    </Style>
+
+</ResourceDictionary>

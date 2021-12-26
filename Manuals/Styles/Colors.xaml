@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Manuals.Styles.Colors">
+
+    <!-- Colors -->
+    <Color x:Key="BackgroundWhite">#E5D5BE</Color>
+    <Color x:Key="BackgroundColor">#ffffff</Color>
+    <Color x:Key="MenuTextColor">#848585</Color>
+    <Color x:Key="MenuDividerColor">#636363</Color>
+    <Color x:Key="MainTextColor">#0A0903</Color>
+    <Color x:Key="Magenta">#A065A4</Color>
+    <Color x:Key="Blue">#197278</Color>
+    <Color x:Key="Yellow">#FFC100</Color>
+    <Color x:Key="Divider">#000000</Color>
+    <Color x:Key="Vermillion">#D64045</Color>
+    <Color x:Key="Mantis">#82D173</Color> 
+
+</ResourceDictionary>
