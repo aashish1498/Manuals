@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Manuals.Constants;
 
 namespace Manuals
 {
@@ -17,7 +18,9 @@ namespace Manuals
 
         protected override void OnStart()
         {
-            Directory.CreateDirectory(Constants.ProductImagesFolder);
+            Directory.CreateDirectory(GetLocalFolder(FileType.Manual));
+            Directory.CreateDirectory(GetLocalFolder(FileType.ProductImage));
+
         }
 
         protected override void OnSleep()

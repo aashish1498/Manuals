@@ -27,7 +27,7 @@
             <ListView x:Name="listView" Margin="20, 20, 20, 10"
               ItemsSource="{Binding ProductItems}"
                                Style="{StaticResource ListViewStyle}"
-                      ItemTapped="listView_ItemTapped"
+                      ItemTapped="ProductList_ItemTapped"
                        HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -43,7 +43,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Add" Command="{Binding AddProductCommand}" Style="{StaticResource SimpleButtonStyle}"/>
+            <Button Text="Add" Margin="20" Command="{Binding AddProductCommand}" Style="{StaticResource SimpleButtonStyle}"/>
         </StackLayout>
     </Grid>
 </ContentPage>

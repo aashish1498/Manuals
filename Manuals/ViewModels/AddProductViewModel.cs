@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
+using static Manuals.Constants;
 
 namespace Manuals.ViewModels
 {
@@ -18,7 +20,6 @@ namespace Manuals.ViewModels
         #region Interface Implementation
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //[NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -29,7 +30,41 @@ namespace Manuals.ViewModels
         public ICommand SaveCommand => new Command(SaveAsync);
         public ICommand DeleteCommand => new Command(DeleteAsync);
         public ICommand ProductImageCommand => new Command(PickImage);
-        public ICommand RemoveImageCommand => new Command(RemoveImage);
+        public ICommand RemoveImageCommand => new Command(RemoveImage); 
+        public ICommand RemoveManualCommand => new Command<string>(RemoveManual);
+
+        private void RemoveManual(string manualName)
+        {
+            ObservableManualLocations.Remove(manualName);
+            Product.ManualNames.Remove(manualName);
+        }
+
+        public ICommand AddManualCommand => new Command(AddManual);
+        public ICommand ManualClickedCommand => new Command<string>(ManualClicked);
+
+        private async void ManualClicked(string manualName)
+        {
+            var filename = Path.Combine(GetLocalFolder(FileType.Manual), manualName);
+            await Launcher.OpenAsync(new OpenFileRequest
+            {
+                File = new ReadOnlyFile(filename)
+            }
+    );
+            return;
+        }
+
+        private async void AddManual()
+        {
+            try
+            {
+                await OpenFilePicker(FileType.Manual);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"CapturePhotoAsync THREW: {ex.Message}");
+            }
+            
+        }
 
         private void RemoveImage()
         {
@@ -42,15 +77,7 @@ namespace Manuals.ViewModels
         {
             try
             {
-                await OpenImagePicker();
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Feature is not supported on the device
-            }
-            catch (PermissionException pEx)
-            {
-                // Permissions not granted
+                await OpenFilePicker(FileType.ProductImage);
             }
             catch (Exception ex)
             {
@@ -63,51 +90,80 @@ namespace Manuals.ViewModels
             var database = await ProductItemDatabase.Instance;
             await database.DeleteItemAsync(Product);
             _ = Navigation.PopAsync();
-            //await _navigationService.Close(this);
         }
         private async void SaveAsync()
         {
             var database = await ProductItemDatabase.Instance;
-            await database.SaveItemAsync(Product);
+            await database.SaveWithChildrenAsync(Product);
             _ = Navigation.PopAsync();
         }
-        private async Task OpenImagePicker()
+        private async Task OpenFilePicker(FileType fileType)
         {
-            var productPhoto = await FilePicker.PickAsync(new PickOptions
+            PickOptions pickOptions;
+            if (fileType == FileType.ProductImage)
             {
-                FileTypes = FilePickerFileType.Images,
-                PickerTitle = "Choose product image"
-            });
-            if (productPhoto != null)
+                pickOptions = new PickOptions
+                {
+                    FileTypes = FilePickerFileType.Images,
+                    PickerTitle = "Choose product image"
+                };
+            }
+            else
             {
-                await SavePhotoAsync(productPhoto);
+                var manualFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                  {
+                   DevicePlatform.Android, new [] { "image/png", "image/jpeg", "application/pdf" }
+                  },
+                  {
+                     DevicePlatform.iOS, new [] { "public.png" , "public.jpeg", "com.adobe.pdf", "com.microsoft.word.doc" }
+                  }
+                });
+                pickOptions = new PickOptions
+                {
+                    FileTypes = manualFileType,
+                    PickerTitle = "Choose product manual"
+                };
+            }
+            var chosenFile = await FilePicker.PickAsync(pickOptions);
+            if (chosenFile != null)
+            {
+                await SaveFileAsync(chosenFile, fileType);
             }
         }
 
-        private async Task SavePhotoAsync(FileResult productPhoto)
+        private async Task SaveFileAsync(FileResult chosenFile, FileType fileType)
         {
-            var newFile = Path.Combine(Constants.ProductImagesFolder, productPhoto.FileName);
-            var secondstream = await productPhoto.OpenReadAsync();
-            ProductImage = ImageSource.FromStream(() => secondstream);
-            using (var stream = await productPhoto.OpenReadAsync())
+            var newFile = Path.Combine(GetLocalFolder(fileType), chosenFile.FileName);
+            using (var stream = await chosenFile.OpenReadAsync())
             {
                 using (var newStream = File.OpenWrite(newFile))
                     await stream.CopyToAsync(newStream);
             }
 
+            if (fileType == FileType.ProductImage)
+            {
+                var secondstream = await chosenFile.OpenReadAsync();
+                ProductImage = ImageSource.FromStream(() => secondstream);
+                Product.ProductImageName = chosenFile.FileName;
+            }
+            else
+            {
+                ObservableManualLocations.Add(chosenFile.FileName);
+                Product.ManualNames.Add(chosenFile.FileName);
+                Height = (ObservableManualLocations.Count * manual_height);
+            }
 
-
-            Product.ProductImageName = productPhoto.FileName;
-            var database = await ProductItemDatabase.Instance;
-            await database.SaveItemAsync(Product);
         }
         #endregion
 
         #region Properties
+        private int manual_height = 30;
         public INavigation Navigation { get; set; }
         public ProductItem Product { get; set; }
         private string _name;
         private ImageSource productImage;
+        public ObservableCollection<string> ObservableManualLocations { get; set; } = new ObservableCollection<string>();
 
         public ImageSource ProductImage
         {
@@ -131,6 +187,17 @@ namespace Manuals.ViewModels
 
         public List<string> Tags { get; set; }
 
+        private int _height;
+
+        public int Height
+        {
+            get { return _height; }
+            set
+            {
+                _height = value;
+                OnPropertyChanged("Height");
+            }
+        }
 
         #endregion
 
@@ -143,8 +210,14 @@ namespace Manuals.ViewModels
             Tags = product.Tags;
             if (!string.IsNullOrEmpty(product.ProductImageName))
             {
-                ProductImage = ImageSource.FromFile(Path.Combine(Constants.ProductImagesFolder, product.ProductImageName));
+                ProductImage = ImageSource.FromFile(Path.Combine(GetLocalFolder(FileType.ProductImage), product.ProductImageName));
             }
+            if (product.ManualNames != null)
+            {
+                ObservableManualLocations.AddRange(product.ManualNames);
+            }
+            Height = (ObservableManualLocations.Count * manual_height);
+
         }
 
         #endregion

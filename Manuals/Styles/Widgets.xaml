@@ -55,6 +55,7 @@
         <!--<Setter Property="BackgroundColor" Value="{DynamicResource Gray-Bg}" />-->
         <Setter Property="SelectionMode" Value="None" />
         <Setter Property="VerticalOptions" Value="FillAndExpand" />
+        <Setter Property="HasUnevenRows" Value="True"/>
     </Style>
 
     <Style x:Key="BoxDividerStyle" TargetType="BoxView">

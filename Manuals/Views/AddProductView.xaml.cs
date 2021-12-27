@@ -19,5 +19,12 @@ namespace Manuals.Views
             InitializeComponent();
             BindingContext = new AddProductViewModel(Navigation, product);
         }
+
+        private void ManualsList_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var vm = BindingContext as AddProductViewModel;
+            var manualName = e.Item as string;
+            vm?.ManualClickedCommand.Execute(manualName);
+        }
     }
 }

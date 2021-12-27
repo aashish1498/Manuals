@@ -20,7 +20,7 @@ namespace Manuals.Views
             BindingContext = new HomeViewModel(Navigation);
         }
 
-        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void ProductList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var vm = BindingContext as HomeViewModel;
             var prodcut = e.Item as ProductItem;

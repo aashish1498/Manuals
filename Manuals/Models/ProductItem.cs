@@ -9,12 +9,14 @@ namespace Manuals.Models
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; } = 0;
         public string Name { get; set; }
-        //public string Notes { get; set; }
-        //public string ManualPath { get; set; }
         public string ProductImageName { get; set; }
 
         [TextBlob(nameof(TagsBlobbed))]
         public List<string> Tags { get; set; } = new List<string>();
         public string TagsBlobbed { get; set; }
+
+        [TextBlob(nameof(ManualNamesBlobbed))]
+        public List<string> ManualNames { get; set; } = new List<string>();
+        public string ManualNamesBlobbed { get; set; }
     }
 }

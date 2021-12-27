@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Xamarin.Forms;
+using static Manuals.Constants;
 
 namespace Manuals.Converters
 {
@@ -15,7 +16,7 @@ namespace Manuals.Converters
             {
                 return "";
             }
-            return Path.Combine(Constants.ProductImagesFolder, (string)value);
+            return Path.Combine(GetLocalFolder(FileType.ProductImage), (string)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

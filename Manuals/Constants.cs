@@ -26,20 +26,32 @@ namespace Manuals
             }
         }
 
-        public static string ProductImagesFolder
+        public static string GetLocalFolder(FileType fileType)
         {
-            get
+            var basePath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
+            switch (fileType)
             {
-                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-                return Path.Combine(basePath, "ProductImages");
+                case FileType.Manual:
+                    return Path.Combine(basePath, "Manuals");
+                case FileType.ProductImage:
+                    return Path.Combine(basePath, "ProductImages");
+                default:
+                    throw new Exception("Specified incorrect file type");
             }
         }
+
         public static void AddRange<T>(this ObservableCollection<T> coll, IEnumerable<T> items)
         {
             foreach (var item in items)
             {
                 coll.Add(item);
             }
+        }
+
+        public enum FileType
+        {
+            ProductImage, Manual
         }
     }
 }

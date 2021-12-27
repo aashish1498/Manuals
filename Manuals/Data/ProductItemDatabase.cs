@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SQLite;
 using Xamarin.Forms;
+using SQLiteNetExtensionsAsync.Extensions;
 
 namespace Manuals.Data
 {
@@ -29,17 +30,14 @@ namespace Manuals.Data
 
         public Task<List<ProductItem>> GetItemsAsync()
         {
-            return Database.Table<ProductItem>().ToListAsync();
-        }
-
-        public Task<List<ProductItem>> GetItemsNotDoneAsync()
-        {
-            return Database.QueryAsync<ProductItem>("SELECT * FROM [ProductItem] WHERE [Done] = 0");
+            return Database.GetAllWithChildrenAsync<ProductItem>();
+            //return Database.Table<ProductItem>().ToListAsync();
         }
 
         public Task<ProductItem> GetItemAsync(int id)
         {
-            return Database.Table<ProductItem>().Where(i => i.ID == id).FirstOrDefaultAsync();
+            return Database.GetWithChildrenAsync<ProductItem>(id);
+            //return Database.Table<ProductItem>().Where(i => i.ID == id).FirstOrDefaultAsync();
         }
 
         public Task<int> SaveItemAsync(ProductItem item)
@@ -51,6 +49,18 @@ namespace Manuals.Data
             else
             {
                 return Database.InsertAsync(item);
+            }
+        }
+
+        public Task SaveWithChildrenAsync(ProductItem item)
+        {
+            if (item.ID != 0)
+            {
+                return Database.UpdateWithChildrenAsync(item);
+            }
+            else
+            {
+                return Database.InsertWithChildrenAsync(item);
             }
         }
 
