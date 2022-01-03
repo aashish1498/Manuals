@@ -42,6 +42,7 @@ namespace Manuals.ViewModels
         {
             var myProduct = new ProductItem();
             myProduct.Name = "New Product";
+            await database.SaveWithChildrenAsync(myProduct);
             await OpenProductPageAsync(myProduct);
         }
 

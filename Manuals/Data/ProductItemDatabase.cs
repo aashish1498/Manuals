@@ -33,6 +33,11 @@ namespace Manuals.Data
             return Database.GetAllWithChildrenAsync<ProductItem>();
             //return Database.Table<ProductItem>().ToListAsync();
         }
+        public Task<List<int>> GetLastIncrement()
+        {
+            return Database.QueryAsync<int>("SELECT last_insert_rowid()");
+        }
+        
 
         public Task<ProductItem> GetItemAsync(int id)
         {

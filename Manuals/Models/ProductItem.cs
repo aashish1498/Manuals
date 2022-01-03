@@ -7,9 +7,9 @@ namespace Manuals.Models
     public class ProductItem
     {
         [PrimaryKey, AutoIncrement]
-        public int ID { get; set; } = 0;
-        public string Name { get; set; }
-        public string ProductImageName { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; } = "";
+        public string ProductImageName { get; set; } = "";
 
         [TextBlob(nameof(TagsBlobbed))]
         public List<string> Tags { get; set; } = new List<string>();

@@ -26,5 +26,17 @@ namespace Manuals.Views
             var manualName = e.Item as string;
             vm?.ManualClickedCommand.Execute(manualName);
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            var vm = BindingContext as AddProductViewModel;
+            if (vm.PageClosedCommand.CanExecute(""))  // You can add parameters if any
+            {
+                vm.PageClosedCommand.Execute(""); // You can add parameters if any
+            }
+            base.OnDisappearing();
+            return true;
+
+        }
     }
 }

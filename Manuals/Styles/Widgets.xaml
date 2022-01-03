@@ -12,12 +12,22 @@
     <!--Buttons-->
 
     <Style x:Key="SimpleButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{DynamicResource Magenta}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource Blue}" />
         <Setter Property="CornerRadius" Value="3" />
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="TextColor" Value="{DynamicResource MainTextColor}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="White" />
         <Setter Property="FontFamily" Value="Montserrat-Semibold" />
+    </Style>
+
+    <Style x:Key="BlackWhiteButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="BorderColor" Value="Black"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontFamily" Value="Montserrat-Bold" />
     </Style>
 
     <Style x:Key="RedButtonStyle" TargetType="Button">
@@ -43,12 +53,25 @@
     </Style>
 
     <Style x:Key="GreenButtonStyle" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{DynamicResource Mantis}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource CustomGreen}" />
         <Setter Property="CornerRadius" Value="3" />
-        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="BorderColor" Value="Black"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="TextColor" Value="Black" />
         <Setter Property="FontFamily" Value="Montserrat-Semibold" />
+    </Style>
+
+    <Style x:Key="EditButtonStyle" TargetType="Button">
+        <Setter Property="WidthRequest" Value="20"/>
+        <Setter Property="HeightRequest" Value="20"/>
+        <Setter Property="FontFamily" Value="{DynamicResource FontAwesomeSolid}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="TextColor" Value="{DynamicResource CustomGreen}"/>
+        <Setter Property="BorderWidth" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Text" Value="&#xf044;"/>
     </Style>
 
     <Style x:Key="ListViewStyle" TargetType="ListView">

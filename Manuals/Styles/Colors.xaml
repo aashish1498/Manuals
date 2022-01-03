@@ -15,6 +15,6 @@
     <Color x:Key="Yellow">#FFC100</Color>
     <Color x:Key="Divider">#000000</Color>
     <Color x:Key="Vermillion">#D64045</Color>
-    <Color x:Key="Mantis">#82D173</Color> 
+    <Color x:Key="CustomGreen">#31E981</Color> 
 
 </ResourceDictionary>

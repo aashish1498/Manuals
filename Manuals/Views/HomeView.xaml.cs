@@ -26,5 +26,11 @@ namespace Manuals.Views
             var prodcut = e.Item as ProductItem;
             vm?.ProductItemClicked.Execute(prodcut);
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var vm = BindingContext as HomeViewModel;
+            if (sender is SearchBar searchBar) vm?.PerformSearch.Execute(searchBar.Text);
+        }
     }
 }

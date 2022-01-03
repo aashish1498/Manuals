@@ -23,6 +23,7 @@
     </ContentPage.Behaviors>
     <Grid>
         <StackLayout>
+            <SearchBar x:Name="SearchBar" Placeholder="Search" SearchCommand="{Binding PerformSearch}" SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" TextChanged="SearchBar_TextChanged"/>
             <BoxView Style="{StaticResource BoxDividerStyle}" Margin="10"/>
             <ListView x:Name="listView" Margin="20, 20, 20, 10"
               ItemsSource="{Binding ProductItems}"
@@ -34,7 +35,7 @@
                         <ViewCell>
                             <StackLayout Margin="10">
                                 <StackLayout Orientation="Horizontal">
-                                    <Image Source="{Binding ProductImageName, Converter={StaticResource nameToSource}}" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="50" HeightRequest="50"/>
+                                    <Image Source="{Binding ., Converter={StaticResource nameToSource}}" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="50" HeightRequest="50"/>
                                     <Label Text="{Binding Name}" Style="{StaticResource ListLabelStyle}" HorizontalOptions="CenterAndExpand"/>
                                 </StackLayout>
                                 <BoxView Style="{StaticResource BoxDividerStyle}"/>

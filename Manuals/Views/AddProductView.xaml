@@ -5,40 +5,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Manuals.Converters"
              mc:Ignorable="d"
              x:Name="addProductVM"
-             x:Class="Manuals.Views.AddProductView">
+             x:Class="Manuals.Views.AddProductView"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:ImageToBool x:Key="imageToBool" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid>
+    <ScrollView Margin="0, 30, 0, 0">
         <StackLayout>
             <!--Name-->
-            <Grid Style="{StaticResource EntryGridStyle}">
-                <Label Text="Name:" Style="{StaticResource EntryLabelStyle}"/>
+            <Grid Style="{StaticResource EntryGridStyle}" Margin="10, 0">
+                <Label HorizontalOptions="Start" Text="Name:" Style="{StaticResource EntryLabelStyle}"/>
                 <Entry Text="{Binding Name, Mode=TwoWay}" Style="{StaticResource EntryStyle}"/>
             </Grid>
             <BoxView Style="{StaticResource BoxDividerStyle}" Margin="20, 10"/>
             <!--Product Image-->
-            <Grid ColumnDefinitions="100, *, 1.5*">
-                <Label Text="Image:" Style="{StaticResource EntryLabelStyle}"/>
-                <Button Grid.Column="1" Text="Choose" Style="{StaticResource SimpleButtonStyle}" VerticalOptions="Center" Command="{Binding ProductImageCommand}"/>
+            <Grid ColumnDefinitions="90, *, 3*" Margin="10, 0">
+                <Label HorizontalOptions="Start" Text="Image:" Style="{StaticResource EntryLabelStyle}"/>
+                <Button Grid.Column="1" HeightRequest="40" Text="Pick" Style="{StaticResource SimpleButtonStyle}" VerticalOptions="Center" Command="{Binding ProductImageCommand}"/>
                 <Image Grid.Column="2" Source="{Binding ProductImage, Mode=TwoWay}" Aspect="AspectFit" HeightRequest="100"/>
-                <Button Grid.Column="2" HorizontalOptions="End" VerticalOptions="Start" Margin="0, 0, 10, 0" Command="{Binding RemoveImageCommand}" Style="{StaticResource RemoveButtonStyle}" IsVisible="{Binding ProductImage, Converter={StaticResource imageToBool}}"/>
+                <Button Grid.Column="2" HorizontalOptions="End" VerticalOptions="Start" Command="{Binding RemoveImageCommand}" Style="{StaticResource RemoveButtonStyle}" IsVisible="{Binding ProductImage, Converter={StaticResource imageToBool}}"/>
             </Grid>
             <BoxView Style="{StaticResource BoxDividerStyle}" Margin="20, 10"/>
             <!--Manuals-->
-            <Grid ColumnDefinitions="100, *, 1.5*">
-                <Label Text="Manuals:" VerticalOptions="Start" Style="{StaticResource EntryLabelStyle}"/>
-                <Button Grid.Column="1" VerticalOptions="Start" Text="Add" Style="{StaticResource SimpleButtonStyle}" Command="{Binding AddManualCommand}"/>
+            <Grid ColumnDefinitions="90, *, 3*" Margin="10, 0">
+                <Label HorizontalOptions="Start" Text="Manuals:" VerticalOptions="Start" Style="{StaticResource EntryLabelStyle}"/>
+                <Button Grid.Column="1" VerticalOptions="Start" HeightRequest="40" Text="Add" Style="{StaticResource SimpleButtonStyle}" Command="{Binding AddManualCommand}"/>
                 <ListView VerticalOptions="Start" Grid.Column="2"  Margin="10, 0" ItemTapped="ManualsList_ItemTapped" Style="{StaticResource ListViewStyle}" ItemsSource="{Binding ObservableManualLocations}" HeightRequest="{Binding Height}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <AbsoluteLayout>
-                                <Label Margin="0, 0, 10, 0" Text="{Binding}" Style="{StaticResource ListLabelStyle}" LineBreakMode="MiddleTruncation"/>
-                                    <Button AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0.99,0,Autosize,Autosize"  Command="{Binding BindingContext.RemoveManualCommand, Source={x:Reference  addProductVM}}" CommandParameter="{Binding .}" Style="{StaticResource RemoveButtonStyle}" IsVisible="{Binding ProductImage, Converter={StaticResource imageToBool}}"/>
-                                </AbsoluteLayout>
+                                <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding}" FontSize="Small" Style="{StaticResource ListLabelStyle}" LineBreakMode="TailTruncation"/>
+                                    <Button Command="{Binding BindingContext.EditManualCommand, Source={x:Reference  addProductVM}}" CommandParameter="{Binding .}" Style="{StaticResource EditButtonStyle}"/>
+                                </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -49,10 +50,11 @@
             
             <!--Save / Delete buttons-->
             <BoxView Style="{StaticResource BoxDividerStyle}" Margin="20, 10"/>
-            <Grid VerticalOptions="End" Margin="0, 50, 0, 0" ColumnDefinitions="*,*">
-                <Button Text="Delete" Command="{Binding DeleteCommand}" VerticalOptions="Center" Style="{StaticResource RedButtonStyle}"/>
-                <Button Grid.Column="1" Text="Save" Command="{Binding SaveCommand}" Style="{StaticResource GreenButtonStyle}" VerticalOptions="Center"/>
+            <Grid VerticalOptions="End" Margin="10, 50, 10, 0" ColumnDefinitions="*,*">
+                <Button Text="Cancel" FontAttributes="Bold" VerticalOptions="Center" Style="{StaticResource BlackWhiteButtonStyle}" Command="{Binding PageClosedCommand}"/>
+                <Button Grid.Column="1" Text="Save" FontAttributes="Bold" Command="{Binding SaveCommand}" Style="{StaticResource GreenButtonStyle}" VerticalOptions="Center"/>
             </Grid>
+            <Button Text="Delete" FontAttributes="Bold" Margin="10, 20, 10, 10" VerticalOptions="Center" Command="{Binding DeleteCommand}" Style="{StaticResource RedButtonStyle}"/>
         </StackLayout>
-    </Grid>
+    </ScrollView>
 </ContentPage>
