@@ -11,6 +11,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Manuals.Views;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Manuals.ViewModels
 {
@@ -30,6 +31,33 @@ namespace Manuals.ViewModels
         #region Commands
         public ICommand AddProductCommand => new Command(AddProductAsync);
         public ICommand ProductItemClicked => new Command<ProductItem>(ProductClickedAsync);
+        public ICommand PerformSearchCommand => new Command<string>(PerformSearch);
+        private void PerformSearch(string query)
+        {
+            var searchResults = new List<ProductItem>();
+            if (query == string.Empty)
+            {
+                OnSearchExited();
+                return;
+            }
+            query = query.ToLower();
+            searchResults = ProductItemsDBList.Where(product => product.Name.ToLower().Contains(query)).ToList();
+            //foreach(var product in ProductItemsDBList)
+            //{
+            //    if(query == product.Name.ToLower())
+            //    {
+            //        searchResults.Add(product);
+            //    }
+            //}
+            ProductItems.Clear();
+            ProductItems.AddRange(searchResults);
+        }
+
+        private void OnSearchExited()
+        {
+            ProductItems.Clear();
+            ProductItems.AddRange(ProductItemsDBList);
+        }
 
         public ICommand PageAppearingComand => new Command(OnAppearing);
 
@@ -53,6 +81,7 @@ namespace Manuals.ViewModels
         #endregion
 
         #region Properties
+        public List<ProductItem> ProductItemsDBList { get; set; }
         public INavigation Navigation { get; set; }
 
         private ProductItemDatabase database;
@@ -71,17 +100,15 @@ namespace Manuals.ViewModels
         public async void InitializeAsync()
         {
             database = await ProductItemDatabase.Instance;
-            //var productItemsList = await database.GetItemsAsync();
-            //ProductItems = new ObservableCollection<ProductItem>(productItemsList);
             RefreshProductsAsync();
         }
         #endregion
 
         private async void RefreshProductsAsync()
         {
-            var productItemsList = await database.GetItemsAsync();
+            ProductItemsDBList = await database.GetItemsAsync();
             ProductItems.Clear();
-            ProductItems.AddRange(productItemsList);
+            ProductItems.AddRange(ProductItemsDBList);
         }
 
         private async Task OpenProductPageAsync(ProductItem productItem)

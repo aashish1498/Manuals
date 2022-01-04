@@ -23,9 +23,9 @@
     </ContentPage.Behaviors>
     <Grid>
         <StackLayout>
-            <SearchBar x:Name="SearchBar" Placeholder="Search" SearchCommand="{Binding PerformSearch}" SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" TextChanged="SearchBar_TextChanged"/>
-            <BoxView Style="{StaticResource BoxDividerStyle}" Margin="10"/>
-            <ListView x:Name="listView" Margin="20, 20, 20, 10"
+            <SearchBar x:Name="SearchBar" Placeholder="Search" SearchCommand="{Binding PerformSearchCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" TextChanged="SearchBar_TextChanged"/>
+            <BoxView Style="{StaticResource BoxDividerStyle}" Margin="30, 10, 30, 0"/>
+            <ListView x:Name="listView" Margin="20, 10, 20, 10"
               ItemsSource="{Binding ProductItems}"
                                Style="{StaticResource ListViewStyle}"
                       ItemTapped="ProductList_ItemTapped"

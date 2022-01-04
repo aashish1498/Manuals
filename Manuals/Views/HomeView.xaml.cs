@@ -30,7 +30,7 @@ namespace Manuals.Views
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             var vm = BindingContext as HomeViewModel;
-            if (sender is SearchBar searchBar) vm?.PerformSearch.Execute(searchBar.Text);
+            if (sender is SearchBar searchBar) vm?.PerformSearchCommand.Execute(searchBar.Text);
         }
     }
 }
